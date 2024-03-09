@@ -1,3 +1,16 @@
+/**
+ * @file Probability.h
+ * @brief Definition of the Probability class and related non-member and member functions for overloading operators.
+ *
+ * This file contains the definition of the Probability class, which represents the probability of independent events,
+ * along with the declaration of related non-member and member functions for overloading logical operations on Probability objects.
+ * This class only works for independent events and non-mutually exclusive events.
+ *
+ * @date 3/8/2024
+ * @version New
+ * @author Jerry Wang
+ */
+
 #include <iostream>
 #include "Probability.h"
 

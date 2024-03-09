@@ -1,54 +1,115 @@
+/*
+ * File: TestProbability.cpp
+ * @brief Contain main() function for testing Probability class.
+ *
+ * @date: 3/8/2024
+ * @version: New
+ * @author: Jerry Wang
+ */
 #include <iostream>
 #include "Probability.h"
 
 using namespace std;
 
+/**
+ * @brief Test the probability value against an expected value and print the result.
+ *
+ * @param actualValue The actual probability value to test.
+ * @param expectedValue The expected probability value.
+ * @param testNumber The number identifying the test case.
+ */
+void testProbability(double actualValue, double expectedValue, char testNumber) {
+	actualValue = std::round(actualValue * 1000) / 1000; // round to 3 decimal places to avoid floating point errors
+	if (actualValue == expectedValue) {
+		cout << "Test " << testNumber << " passed" << endl;
+	}
+	else {
+		cout << "Test " << testNumber << " failed" << endl;
+	}
+}
+
 int main() {
-	// Test case 1: Create a Probability object with default probability
-	Probability p1;
-	cout << "Default probability value: " << p1 << endl;
+	Probability pA(0.6);
+	cout << "Probability value for p1: " << pA << endl;
+	Probability pB(0.4);
+	cout << "Probability value for p2: " << pB << endl;
 
-	// Test case 2: Create a Probability object with a specific probability value
-	Probability p2(0.4);
-	cout << "Probability value for p2: " << p2 << endl;
+	/////////// Test set 1: Testing valid probability values //////////
 
-	// Test case 3: Set a new probability value for p1 and verify it
-	p1.setProbability(0.6);
-	cout << "Updated probability value for p1: " << p1 << endl;
+	// Test case 1: Perform logical AND operation between pA and pB
+	Probability p1 = pA & pB;
+	testProbability(p1.getProbability(), 0.24, '1');
 
-	// Test case 4: Perform logical AND operation between p1 and p2
-	Probability p3 = p1 & p2;
-	cout << "Probability value after logical AND operation: " << p3 << endl;
+	// test case 2: Test commutative property of logical AND operation
+	Probability p2 = pB & pA;
+	testProbability(p2.getProbability(), 0.24, '2');
 
-	// Test case 5: Perform logical AND operation between p2 and p1 (commutative test)
-	Probability p4 = p2 & p1;
-	cout << "Probability value after commutative logical AND operation: " << p4 << endl;
+	// Test case 3: Perform logical OR operation between pA and pB
+	Probability p3 = pA | pB;
+	testProbability(p3.getProbability(), 0.76, '3');
 
-	// Test case 6: Perform logical OR operation between p1 and p2
-	Probability p5 = p1 | p2;
-	cout << "Probability value after logical OR operation: " << p5 << endl;
+	// test case 4: Test commutative property of logical OR operation
+	Probability p4 = pB | pA;
+	testProbability(p4.getProbability(), 0.76, '4');
 
-	// Test case 7: Perform logical OR operation between p2 and p1 (commutative test)
-	Probability p6 = p2 | p1;
-	cout << "Probability value after commutative logical OR operation: " << p6 << endl;
+	// Test case 5: Perform logical XOR operation between pA and pB
+	Probability p5 = pA ^ pB;
+	testProbability(p5.getProbability(), 0.52, '5');
 
-	// Test case 8: Perform logical XOR operation between p1 and p2
-	Probability p7 = p1 ^ p2;
-	cout << "Probability value after logical XOR operation: " << p7 << endl;
+	// Test case 6: test commutative property of logical XOR operation
+	Probability p6 = pB ^ pA;
+	testProbability(p6.getProbability(), 0.52, '6');
 
-	// Test case 9: Perform logical XOR operation between p2 and p1 (commutative test)
-	Probability p8 = p2 ^ p1;
-	cout << "Probability value after commutative logical XOR operation: " << p8 << endl;
+	// Test case 7: Perform subtraction operation between pA and pB
+	Probability p7 = pA - pB;
+	testProbability(p7.getProbability(), 0.36, '7');
 
-	// Test case 9: Perform logical subtraction operation between p1 and p2
-	Probability p9 = p1 - p2;
-	cout << "Probability value after logical subtraction operation: " << p9 << endl;
+	// Test case 8: Perform subtraction operation between pA and pB
+	Probability p8 = pB - pA;
+	testProbability(p8.getProbability(), 0.16, '8');
 
-	// Test case 10: Perform logical NOT operation on p1
-	Probability p10 = ~p1;
-	cout << "Probability value after logical NOT operation on p1: " << p10 << endl;
+	// Test case 9: Perform negation operation on pA
+	Probability p9 = ~pA;
+	testProbability(p9.getProbability(), 0.4, '9');
 
-	p2 - p1;
+	// test case 10-13: Test compound assignment operators
+	Probability p10 = pA;
+	p10 &= pB;
+	testProbability(p10.getProbability(), 0.24, '10');
+
+	Probability p11 = pA;
+	p11 |= pB;
+	testProbability(p11.getProbability(), 0.76, '11');
+
+	Probability p12 = pA;
+	p12 ^= pB;
+	testProbability(p12.getProbability(), 0.52, '12');
+
+	Probability p13 = pA;
+	p13 -= pB;
+	testProbability(p13.getProbability(), 0.36, '13');
+
+	/////////// Test set 2: Testing invalid probability values //////////
+	try {
+		Probability p10(1.1);
+	}
+	catch (const std::invalid_argument& e) {
+		cout << "Test 10 passed" << endl;
+	}
+
+	try {
+		Probability p11(-0.1);
+	}
+	catch (const std::invalid_argument& e) {
+		cout << "Test 11 passed" << endl;
+	}
+
+	try {
+		Probability p12(10000000000000000000);
+	}
+	catch (const std::invalid_argument& e) {
+		cout << "Test 12 passed" << endl;
+	}
 
 	return 0;
 }

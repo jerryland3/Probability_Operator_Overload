@@ -1,8 +1,20 @@
+/*
+ * File: Probability.h
+ * @brief This file contains the declaration of the Probability class.
+ *
+ * This class represents the probability of independent events, along with opeartor overloadings for probability operations.
+ * This class only works for independent events and non-mutually exclusive events.
+ *
+ * @date: 3/8/2024
+ * @version: New
+ * @author: Jerry Wang
+ */
+
 #pragma once
 #include <iostream>
-/**
- * @brief Represents the probability of independent events.
- */
+ /**
+  * @brief Represents the probability of independent events.
+  */
 class Probability {
 	friend Probability& operator&=(Probability& lhs, const Probability& rhs);
 	friend Probability& operator|=(Probability& lhs, const Probability& rhs);
